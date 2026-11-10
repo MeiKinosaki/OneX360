@@ -1,16 +1,20 @@
 # Testing and evidence
 
-## Current automated test scope
+## Host test targets
 
-The GitHub Actions workflow configures CMake, compiles the portable host code, and runs CTest. The tests cover CPU-state defaults, CPU-only save/load round-trip, game-library search/favorites/category/genre filters, and per-game preset selection.
+- `cpu_state`: CPU state default initialization.
+- `features`: CPU-only save/load round-trip, game-library search/favorites/category/genre filters and per-game preset selection.
+- `cpu_decoder`: selected opcode decoding and initial interpreter steps.
 
-## Evidence labels
+GitHub Actions builds the portable C++17 library and runs CTest on a Linux host.
 
-- **Code written:** source exists in the repository.
-- **Host build passed:** CI compiled the host target.
-- **Host tests passed:** named tests ran successfully on CI.
-- **Xbox 360 build passed:** a verified Xenon-compatible toolchain produced a target artifact.
-- **XEX validated:** the produced `default.xex` was inspected and confirmed valid.
-- **Hardware tested:** the artifact was launched on Xbox 360 hardware and observed.
+## Evidence levels
 
-These are separate claims. Current host tests do not cover Xbox One instruction execution, guest RAM snapshots, GPU state, cover downloads, UI rendering, audio playback, or a `default.xex`.
+- **Code written:** source exists in GitHub.
+- **Host build passed:** CI compiled the host targets.
+- **Host tests passed:** CTest reports all named tests passed.
+- **Xbox 360 build passed:** a verified Xenon toolchain produced a target artifact.
+- **XEX validated:** the `default.xex` artifact was inspected and confirmed valid.
+- **Hardware tested:** it was launched and observed on an Xbox 360.
+
+These are separate claims. No Xbox 360 build, XEX, or hardware test is currently confirmed.
