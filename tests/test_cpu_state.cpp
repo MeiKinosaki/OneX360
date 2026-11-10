@@ -1,11 +1,13 @@
 #include "cpu/cpu_state.hpp"
-#include <cassert>
+#include <iostream>
 
 int main() {
     onex360::cpu::CpuState state{};
-    assert(state.rip == 0);
-    assert(state.rflags == 2);
-    assert(state.halted == false);
-    for (auto value : state.gpr) assert(value == 0);
+    if (state.rip != 0 || state.rflags != 2 || state.halted) {
+        std::cerr << "CPU state defaults are incorrect\n"; return 1;
+    }
+    for (auto value : state.gpr) {
+        if (value != 0) { std::cerr << "GPR not zero-initialized\n"; return 1; }
+    }
     return 0;
 }
