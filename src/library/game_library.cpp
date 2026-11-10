@@ -1,6 +1,7 @@
 #include "game_library.hpp"
 #include <algorithm>
 #include <cctype>
+#include <utility>
 
 namespace onex360::library {
 namespace {
