@@ -1,7 +1,7 @@
 #include "state/save_state.hpp"
 #include "library/game_library.hpp"
 #include "config/settings.hpp"
-#include <cstdio>
+#include <cstdio>\n#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -20,7 +20,7 @@ int main() {
     CHECK(restored.gpr[0]==original.gpr[0]);
     CHECK(restored.rip==original.rip && restored.rsp==original.rsp);
     CHECK(restored.rflags==original.rflags && restored.halted==original.halted);
-    std::remove(path.c_str());
+    {\n        std::fstream corrupt(path,std::ios::binary|std::ios::in|std::ios::out);\n        CHECK(static_cast<bool>(corrupt));\n        corrupt.seekp(20); char byte=0x7f; corrupt.write(&byte,1);\n    }\n    cpu::CpuState unchanged{}; unchanged.rip=0xdead;\n    CHECK(!state::load_cpu_state(path,unchanged,error));\n    CHECK(unchanged.rip==0xdead);\n    std::remove(path.c_str());
 
     library::GameLibrary games;
     games.add({"Alpha Test","Games/alpha.xbe","Covers/alpha.png",false,"Homebrew","Utility"});
