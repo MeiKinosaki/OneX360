@@ -22,11 +22,15 @@ int main() {
     std::remove(path.c_str());
 
     library::GameLibrary games;
-    games.add({"Alpha Test","Games/alpha.xbe","Covers/alpha.png",false});
-    games.add({"Beta Demo","Games/beta.iso","Covers/beta.png",true});
+    games.add({"Alpha Test","Games/alpha.xbe","Covers/alpha.png",false,"Homebrew","Utility"});
+    games.add({"Beta Demo","Games/beta.iso","Covers/beta.png",true,"Retail","Action"});
     CHECK(games.set_favorite("Games/alpha.xbe",true));
     CHECK(games.search("alpha").size()==1);
     CHECK(games.search("",true).size()==2);
     CHECK(!games.set_favorite("missing",true));
+    library::GameFilter byCategory; byCategory.category="retail";
+    CHECK(games.filter(byCategory).size()==1);
+    library::GameFilter byGenre; byGenre.genre="utility";
+    CHECK(games.filter(byGenre).size()==1);
     return 0;
 }
