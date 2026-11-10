@@ -1,5 +1,6 @@
 #include "state/save_state.hpp"
 #include "library/game_library.hpp"
+#include "config/settings.hpp"
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -32,5 +33,10 @@ int main() {
     CHECK(games.filter(byCategory).size()==1);
     library::GameFilter byGenre; byGenre.genre="utility";
     CHECK(games.filter(byGenre).size()==1);
+    config::Settings settings;
+    CHECK(config::preset_for_game(settings,"alpha")==config::RenderPreset::Balanced);
+    settings.per_game.push_back({"alpha",config::RenderPreset::Performance});
+    CHECK(config::preset_for_game(settings,"alpha")==config::RenderPreset::Performance);
+    CHECK(config::preset_for_game(settings,"beta")==config::RenderPreset::Balanced);
     return 0;
 }
