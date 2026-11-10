@@ -2,13 +2,13 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
+#include <iterator>
 #include <vector>
 
 namespace onex360::state {
 namespace {
 constexpr std::array<unsigned char, 8> magic{{'O','N','X','S','T','0','1','\0'}};
 constexpr std::uint32_t format_version = 1;
-
 void put64(std::vector<unsigned char>& out, std::uint64_t v) {
     for (unsigned i=0;i<8;++i) out.push_back(static_cast<unsigned char>((v>>(i*8))&0xff));
 }
