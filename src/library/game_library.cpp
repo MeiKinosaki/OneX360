@@ -21,11 +21,17 @@ bool GameLibrary::set_favorite(const std::string& path, bool favorite) {
     it->favorite=favorite; return true;
 }
 std::vector<GameEntry> GameLibrary::search(const std::string& query, bool favorites_only) const {
-    const auto needle=lower(query);
+    GameFilter f; f.text=query; f.favorites_only=favorites_only; return filter(f);
+}
+std::vector<GameEntry> GameLibrary::filter(const GameFilter& f) const {
+    const auto needle=lower(f.text), category=lower(f.category), genre=lower(f.genre);
     std::vector<GameEntry> result;
     for(const auto& game:games_) {
-        if(favorites_only && !game.favorite) continue;
-        if(needle.empty() || lower(game.title).find(needle)!=std::string::npos) result.push_back(game);
+        if(f.favorites_only && !game.favorite) continue;
+        if(!needle.empty() && lower(game.title).find(needle)==std::string::npos) continue;
+        if(!category.empty() && lower(game.category)!=category) continue;
+        if(!genre.empty() && lower(game.genre)!=genre) continue;
+        result.push_back(game);
     }
     return result;
 }
